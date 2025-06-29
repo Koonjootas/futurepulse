@@ -1,0 +1,5 @@
+https://www.sciencealert.com/rss
+https://www.technologyreview.com/feed/
+http://export.arxiv.org/rss/cs
+https://futurism.com/rss
+https://www.nature.com/subjects/technology.rss
