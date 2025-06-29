@@ -7,7 +7,7 @@ API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}",
-    "HTTP-Referer": "https://github.com/Koonjootas/futurepulse",  # твой публичный репо
+    "HTTP-Referer": "https://github.com/Koonjootas/futurepulse",
     "Content-Type": "application/json"
 }
 
@@ -33,17 +33,27 @@ def generate_post(title, summary, model="deepseek/deepseek-chat-v3-0324:free"):
         ]
     }
 
-    response = requests.post(
-        "https://openrouter.ai/api/v1/chat/completions",
-        headers=HEADERS,
-        json=payload
-    )
+    try:
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=HEADERS,
+            json=payload,
+            timeout=30
+        )
 
-    if response.status_code == 200:
-        return response.json()["choices"][0]["message"]["content"]
-    else:
-        print("❌ Ошибка:", response.status_code, response.text)
-        return None
+        response.raise_for_status()
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
+
+    except requests.exceptions.RequestException as e:
+        print("❌ Сетевая ошибка:", e)
+    except KeyError:
+        print("❌ Ошибка: Не удалось извлечь результат из ответа.")
+        print("Ответ сервера:", response.text)
+    except Exception as e:
+        print("❌ Непредвиденная ошибка:", e)
+
+    return None
 
 # Пример использования
 if __name__ == "__main__":
