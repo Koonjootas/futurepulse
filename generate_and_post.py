@@ -3,6 +3,8 @@ import json
 import requests
 import feedparser
 from datetime import datetime
+from dotenv import load_dotenv
+
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("DRAFT_CHAT_ID")
