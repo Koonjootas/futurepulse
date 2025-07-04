@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     for i, item in enumerate(all_news, start=1):
         print(f"\n#{i}: {item['title']}")
-        post = generate_post(item["title"], item["summary"])
+        post = generate_post(item["title"], item["summary"], item["link"])
         if post:
             save_post(post, item["link"], i)
         else:
