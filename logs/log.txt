@@ -1,1 +1,12 @@
-2025-07-04 | AI discovers Earth-like planet | https://example.com/earth-like-planet
+2025-07-05 | US Teen Drivers Admit to Looking at Their Phones For 21% of Every Trip | https://www.sciencealert.com/us-teen-drivers-admit-to-looking-at-their-phones-for-21-of-every-trip
+2025-07-05 | Massive Review Finds No 'Safe' Level of Processed Meat Consumption | https://www.sciencealert.com/massive-review-finds-no-safe-level-of-processed-meat-consumption
+2025-07-05 | Curiosity Cracked Open a Rock on Mars And Discovered a Huge Surprise | https://www.sciencealert.com/curiosity-cracked-open-a-rock-on-mars-and-discovered-a-huge-surprise
+2025-07-05 | The Download: India’s AI independence, and predicting future epidemics | https://www.technologyreview.com/2025/07/04/1119711/the-download-indias-ai-independence-and-predicting-future-epidemics/
+2025-07-05 | Inside India’s scramble for AI independence | https://www.technologyreview.com/2025/07/04/1119705/inside-indias-scramble-for-ai-independence/
+2025-07-05 | The Download: AI agents hype, and Google’s electricity plans | https://www.technologyreview.com/2025/07/03/1119682/the-download-ai-agents-hype-and-googles-electricity-plans/
+2025-07-05 | Acoustic evaluation of a neural network dedicated to the detection of animal vocalisations | https://arxiv.org/abs/2507.01974
+2025-07-05 | Learnable-Differentiable Finite Volume Solver for Accelerated Simulation of Flows | https://arxiv.org/abs/2507.01975
+2025-07-05 | A Comprehensive Survey on Network Traffic Synthesis: From Statistical Models to Deep Learning | https://arxiv.org/abs/2507.01976
+2025-07-05 | China pours money into brain chips that give paralysed people more control | https://www.nature.com/articles/d41586-025-02098-5
+2025-07-05 | How AI is used in FDA-authorized medical devices: a taxonomy across 1,016 authorizations | https://www.nature.com/articles/s41746-025-01800-1
+2025-07-05 | Transparent research: can big tech learn from big pharma? | https://www.nature.com/articles/d41586-025-02030-x

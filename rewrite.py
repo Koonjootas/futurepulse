@@ -49,7 +49,7 @@ Tone of Voice:
 - Избегай штампов и клише. Пиши коротко, но образно
 - До 600 символов
 - Используй Markdown для форматирования
-- В конце — **практическая польза**
+- В конце — практическая польза для того кто прочитал новость
 """
 
     response = client.chat.completions.create(
@@ -67,9 +67,9 @@ Tone of Voice:
 # Пример запуска
 if __name__ == "__main__":
     post = generate_post(
-        title="AI discovers Earth-like planet",
-        summary="An AI system detected a planet with similar atmospheric conditions as Earth.",
-        link="https://example.com/earth-like-planet"
+        title="",
+        summary="",
+        link=""
     )
     if post:
         print("\n📝 Сгенерированный пост:\n")
