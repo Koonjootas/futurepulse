@@ -11,7 +11,7 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
-MODEL_ID = "deepseek/deepseek-chat-v3-0324:free"
+MODEL_ID = "deepseek-ai/deepseek-chat:free"
 
 def generate_post(title, summary, model=MODEL_ID):
     prompt = f"""
