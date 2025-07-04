@@ -11,7 +11,9 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
-def generate_post(title, summary, model="deepseek/deepseek-chat-v3-0324:free"):
+MODEL_ID = "deepseek/deepseek-chat-v3-0324:free"
+
+def generate_post(title, summary, model=MODEL_ID):
     prompt = f"""
 Ты пишешь посты для Telegram-канала @FuturePulse — ежедневно один научный инсайт.
 
@@ -33,29 +35,19 @@ def generate_post(title, summary, model="deepseek/deepseek-chat-v3-0324:free"):
         ]
     }
 
-    try:
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers=HEADERS,
-            json=payload,
-            timeout=30
-        )
+    response = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers=HEADERS,
+        json=payload
+    )
 
-        response.raise_for_status()
-        result = response.json()
-        return result["choices"][0]["message"]["content"]
+    if response.status_code == 200:
+        return response.json()["choices"][0]["message"]["content"]
+    else:
+        print(f"❌ Ошибка {response.status_code}: {response.text}")
+        return None
 
-    except requests.exceptions.RequestException as e:
-        print("❌ Сетевая ошибка:", e)
-    except KeyError:
-        print("❌ Ошибка: Не удалось извлечь результат из ответа.")
-        print("Ответ сервера:", response.text)
-    except Exception as e:
-        print("❌ Непредвиденная ошибка:", e)
-
-    return None
-
-# Пример использования
+# Пример использования при локальном запуске
 if __name__ == "__main__":
     title = "AI Is Now Writing Its Own Research Papers"
     summary = "Artificial intelligence is being used to generate scientific papers with minimal human input. This trend raises questions about authorship and accuracy."
