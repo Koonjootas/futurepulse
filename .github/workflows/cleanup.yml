@@ -1,0 +1,21 @@
+name: Очистка логов и черновиков
+
+on:
+  schedule:
+    - cron: "0 3 1 */2 *" # 1-е число каждых двух месяцев в 03:00 UTC (06:00 по МСК)
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Клонировать репозиторий
+        uses: actions/checkout@v3
+
+      - name: Очистить log.txt и папку posts
+        run: |
+          echo "🧹 Очистка log.txt и posts..."
+          echo "" > logs/log.txt
+          rm -f posts/*.txt || true
+          echo "✅ Очистка завершена"
