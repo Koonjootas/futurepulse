@@ -1,98 +1,53 @@
-import os
-import json
-import requests
-import feedparser
-from datetime import datetime
 from dotenv import load_dotenv
+import os
+import requests
 
+load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("DRAFT_CHAT_ID")
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-
-HEADERS = {
-    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-    "HTTP-Referer": "https://futurepulse.ai",
-    "Content-Type": "application/json"
-}
-
-MODEL_ID = "deepseek-ai/deepseek-chat"  # бесплатная модель
-
-
-def read_rss_sources(file_path):
-    with open(file_path, "r") as f:
-        return [line.strip() for line in f if line.strip()]
-
-
-def fetch_news_from_rss(url):
-    feed = feedparser.parse(url)
-    news_items = []
-    for entry in feed.entries[:3]:  # первые 3 новости с источника
-        news_items.append({
-            "title": entry.title,
-            "link": entry.link,
-            "summary": entry.summary if "summary" in entry else "",
-        })
-    return news_items
-
-
-def generate_post(title, summary, link):
-    prompt = f"""
-    Напиши пост в Telegram-канал на основе следующей новости:
-
-    Заголовок: {title}
-    Описание: {summary}
-    Ссылка: {link}
-
-    Задача:
-    - Преврати это в короткий пост, до 500 символов
-    - Заголовок должен быть вау-инсайтом, с практическим смыслом
-    - Используй Markdown (жирный заголовок, абзацы)
-    - Заверши вопросом к читателю
-    """
-
-    payload = {
-        "model": MODEL_ID,
-        "messages": [
-            {"role": "user", "content": prompt}
-        ]
-    }
-
-    response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=HEADERS, json=payload)
-
-    if response.status_code == 200:
-        data = response.json()
-        return data['choices'][0]['message']['content']
-    else:
-        print(f"Ошибка: {response.status_code} {response.text}")
-        return None
-
+FOLDER = "posts"
 
 def send_to_telegram(text):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    payload = {
+    data = {
         "chat_id": CHAT_ID,
         "text": text,
-        "parse_mode": "Markdown",
-        "disable_web_page_preview": False
+        "parse_mode": "Markdown"
     }
-    response = requests.post(url, json=payload)
+    response = requests.post(url, data=data)
     if response.status_code != 200:
-        print(f"Telegram error: {response.text}")
-
+        print("❌ Ошибка отправки:", response.status_code, response.text)
+    else:
+        print("✅ Отправлено:", text[:40], "...")
 
 def main():
-    rss_urls = read_rss_sources("rss_sources.txt")
-    all_news = []
+    print("📁 Текущая директория:", os.getcwd())
+    if not os.path.exists(FOLDER):
+        print(f"❌ Папка '{FOLDER}' не найдена")
+        return
 
-    for url in rss_urls:
-        all_news.extend(fetch_news_from_rss(url))
+    all_files = os.listdir(FOLDER)
+    print(f"📄 Найдено файлов: {len(all_files)} →", all_files)
 
-    for i, news in enumerate(all_news):
-        post = generate_post(news["title"], news["summary"], news["link"])
-        if post:
-            send_to_telegram(post)
+    files = sorted(
+        f for f in all_files
+        if f.lower().endswith(".txt") and f[:10].replace("-", "").isdigit()
+    )
 
+    if not files:
+        print(f"⚠️ Нет подходящих файлов для обработки в папке '{FOLDER}'")
+        return
+
+    for filename in files:
+        filepath = os.path.join(FOLDER, filename)
+        with open(filepath, "r", encoding="utf-8") as f:
+            content = f.read().strip()
+            if content:
+                print(f"📤 Отправка: {filename}")
+                send_to_telegram(content)
+            else:
+                print(f"⚠️ Пустой файл: {filename}")
 
 if __name__ == "__main__":
     main()

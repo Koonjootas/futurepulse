@@ -1,9 +1,9 @@
 name: Автогенерация постов для FuturePulse
 
 on:
-  workflow_dispatch: # ручной запуск с GitHub
+  workflow_dispatch:
   schedule:
-    - cron: "0 8,20 * * *" # каждый день в 08:00 и 20:00 по UTC (11:00 и 23:00 МСК)
+    - cron: "0 8,20 * * *" # 11:00 и 23:00 по МСК
 
 jobs:
   build:
@@ -23,14 +23,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Проверка ключа OPENROUTER_API_KEY
-        run: echo "OPENROUTER_API_KEY is ${{ secrets.OPENROUTER_API_KEY }}"
-
-      - name: Запустить генерацию постов
+      - name: Запустить генерацию и публикацию постов
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_DRAFT_CHANNEL_ID: ${{ secrets.TELEGRAM_DRAFT_CHANNEL_ID }}
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          DRAFT_CHAT_ID: ${{ secrets.DRAFT_CHAT_ID }}
         run: |
           python generate_from_rss.py
           python generate_and_post.py
