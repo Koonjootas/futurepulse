@@ -26,8 +26,16 @@ jobs:
       - name: Запустить генерацию и публикацию постов
         env:
           TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          DRAFT_CHAT_ID: ${{ secrets.DRAFT_CHAT_ID }}
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          DRAFT_CHAT_ID: ${{ secrets.TELEGRAM_DRAFT_CHANNEL_ID }}
         run: |
           python generate_from_rss.py
           python generate_and_post.py
+
+      - name: Сохранить сгенерированные посты и логи
+        uses: actions/upload-artifact@v3
+        with:
+          name: generated-posts-and-logs
+          path: |
+            posts/
+            logs/
