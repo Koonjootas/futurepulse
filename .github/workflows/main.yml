@@ -3,7 +3,7 @@ name: Автогенерация постов для FuturePulse
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 8,20 * * *" # 11:00 и 23:00 по МСК
+    - cron: "0 * * * *"
 
 jobs:
   build:
